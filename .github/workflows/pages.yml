@@ -1,0 +1,33 @@
+name: Publish Zaylo
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: zaylo-pages
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Download website
+        run: |
+          curl --fail --location --retry 3 https://github.com/farahabdishakur/Zaylo/releases/download/v0.2-preview/Zaylo-web.zip -o /tmp/zaylo-web.zip
+          mkdir _site
+          unzip -q /tmp/zaylo-web.zip -d _site
+          test -f _site/index.html
+          test -f _site/app/index.html
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+      - name: Deploy website
+        id: deployment
+        uses: actions/deploy-pages@v4
