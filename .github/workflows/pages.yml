@@ -19,7 +19,7 @@ jobs:
     steps:
       - name: Download website
         run: |
-          curl --fail --location --retry 3 https://github.com/farahabdishakur/Zaylo/releases/download/v0.2-preview/Zaylo-web.zip -o /tmp/zaylo-web.zip
+          curl --fail --location --retry 3 https://github.com/farahabdishakur/Zaylo/releases/download/v0.3-preview/Zaylo-web.zip -o /tmp/zaylo-web.zip
           mkdir _site
           unzip -q /tmp/zaylo-web.zip -d _site
           test -f _site/index.html
